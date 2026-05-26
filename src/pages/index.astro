@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard';
+
+const garlico = {
+  name: 'Garlico',
+  tagline: 'Freshly whipped garlic with lemon, olive oil & salt',
+  image: '/images/garlico-original.webp',
+  variants: [
+    { label: 'Original', className: 'original' },
+    { label: 'Spicy',    className: 'spicy' },
+    { label: 'Tangy',    className: 'tangy' },
+  ],
+  sizes: [
+    { label: '8 oz',  price: 695,  priceId: '' },
+    { label: '11 oz', price: 895,  priceId: '' },
+    { label: '16 oz', price: 1195, priceId: '' },
+  ],
+};
+
+const tahini = {
+  name: 'Tahini',
+  tagline: 'Rich, creamy sesame tahini — original and spicy',
+  image: '/images/tahini-original.webp',
+  variants: [
+    { label: 'Original', className: 'original' },
+    { label: 'Spicy',    className: 'spicy' },
+  ],
+  sizes: [
+    { label: '8 oz',  price: 695,  priceId: '' },
+    { label: '11 oz', price: 895,  priceId: '' },
+    { label: '16 oz', price: 1195, priceId: '' },
+  ],
+};
+
+const recipes = [
+  {
+    name: 'Garlico Shrimp Pasta',
+    time: '20–30 mins',
+    cals: '300–400 cal',
+    desc: 'Silky garlic pasta tossed with fresh shrimp and a generous dollop of Garlico.',
+    img: '/images/recipe-shrimp-pasta.webp',
+    href: '/recipes/shrimp-pasta',
+  },
+  {
+    name: 'Garlico Roasted Potatoes',
+    time: '30–60 mins',
+    cals: '140–200 cal',
+    desc: 'Crispy golden potatoes finished with Garlico Original for maximum flavour.',
+    img: '/images/recipe-roasted-potatoes.webp',
+    href: '/recipes/roasted-potatoes',
+  },
+  {
+    name: 'Garlico Chicken Parmesan',
+    time: '30–50 mins',
+    cals: '361 cal',
+    desc: 'The classic Italian-American dish elevated with a Garlico twist.',
+    img: '/images/recipe-chicken-parm.webp',
+    href: '/recipes/chicken-parmesan',
+  },
+  {
+    name: 'Garlico Pad Thai',
+    time: '30 mins',
+    cals: '300–400 cal',
+    desc: 'A bold East-meets-West fusion: stir-fried noodles with a garlic kick.',
+    img: '/images/recipe-pad-thai.webp',
+    href: '/recipes/pad-thai',
+  },
+];
+---
+<Layout title="The Garlic Father — Garlickin' Good">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-img-wrap">
+      <img
+        src="/images/hero.webp"
+        alt="Garlico — The Garlic Father's signature garlic sauce"
+        width="1400"
+        height="580"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- TAGLINE -->
+  <section class="tagline-section">
+    <h1>Garlickin' <span>Good</span></h1>
+    <p>
+      The Garlic Father has crafted a culinary revelation — the one and only Garlico.
+      With its luscious purée of freshly whipped garlic, lemon, olive oil and salt,
+      it's a symphony of flavour that elevates any dish, from Italian pasta to Indian
+      curry to Mexican tacos. Get ready for a garlic-infused adventure.
+    </p>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products-section" id="products">
+    <div class="products-inner">
+      <span class="section-label">Our Products</span>
+      <div class="section-title">Shop The Collection</div>
+      <div class="product-grid">
+        <ProductCard client:load {...garlico} />
+        <ProductCard client:load {...tahini} />
+      </div>
+    </div>
+  </section>
+
+  <!-- RECIPES -->
+  <section class="recipes-section" id="recipes">
+    <div class="recipes-inner">
+      <div class="recipes-header">
+        <div>
+          <span class="section-label">Inspiration</span>
+          <div class="section-title" style="margin-bottom:0">Featured Recipes</div>
+        </div>
+        <a href="/recipes" class="btn btn-outline">All Recipes →</a>
+      </div>
+      <div class="recipe-grid">
+        {recipes.map(r => (
+          <a href={r.href} class="recipe-card">
+            <div class="recipe-card-img">
+              <img src={r.img} alt={r.name} loading="lazy" width="400" height="250" />
+            </div>
+            <div class="recipe-card-body">
+              <div class="recipe-meta">
+                <span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {r.time}
+                </span>
+                <span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+                  {r.cals}
+                </span>
+              </div>
+              <div class="recipe-name">{r.name}</div>
+              <div class="recipe-desc">{r.desc}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</Layout>

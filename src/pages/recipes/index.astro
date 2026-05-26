@@ -1,0 +1,76 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const recipes = [
+  {
+    name: 'Garlico Shrimp Pasta',
+    time: '20–30 mins', cals: '300–400 cal',
+    desc: 'Silky garlic pasta tossed with fresh shrimp and a generous dollop of Garlico. Quick weeknight perfection.',
+    img: '/images/recipe-shrimp-pasta.webp',
+    href: '/recipes/shrimp-pasta',
+    tag: 'Pasta',
+  },
+  {
+    name: 'Garlico Roasted Potatoes',
+    time: '30–60 mins', cals: '140–200 cal',
+    desc: 'Crispy golden potatoes finished with Garlico Original for maximum flavour. The ultimate side dish.',
+    img: '/images/recipe-roasted-potatoes.webp',
+    href: '/recipes/roasted-potatoes',
+    tag: 'Sides',
+  },
+  {
+    name: 'Garlico Chicken Parmesan',
+    time: '30–50 mins', cals: '361 cal',
+    desc: 'The classic Italian-American dish elevated with a Garlico twist. Crispy, saucy, and garlicky.',
+    img: '/images/recipe-chicken-parm.webp',
+    href: '/recipes/chicken-parmesan',
+    tag: 'Chicken',
+  },
+  {
+    name: 'Garlico Pad Thai',
+    time: '30 mins', cals: '300–400 cal',
+    desc: 'A bold East-meets-West fusion: stir-fried noodles with a garlic kick that will surprise you.',
+    img: '/images/recipe-pad-thai.webp',
+    href: '/recipes/pad-thai',
+    tag: 'Noodles',
+  },
+];
+---
+<Layout
+  title="Recipes — The Garlic Father"
+  description="Garlickin' good recipes using Garlico and Tahini. From pasta to pad thai, find your next favourite dish."
+>
+  <div class="page-hero">
+    <h1>Recipes</h1>
+    <p>Garlickin' good ideas for every night of the week.</p>
+  </div>
+
+  <div class="recipes-page-body">
+    <div class="recipe-grid">
+      {recipes.map(r => (
+        <a href={r.href} class="recipe-card">
+          <div class="recipe-card-img">
+            <img src={r.img} alt={r.name} loading="lazy" width="400" height="250" />
+            <span style="position:absolute;top:12px;right:12px;background:var(--green);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:99px;">
+              {r.tag}
+            </span>
+          </div>
+          <div class="recipe-card-body">
+            <div class="recipe-meta">
+              <span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                {r.time}
+              </span>
+              <span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+                {r.cals}
+              </span>
+            </div>
+            <div class="recipe-name">{r.name}</div>
+            <div class="recipe-desc">{r.desc}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,137 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'The Garlic Father — Garlickin\' good garlic sauces. Freshly whipped garlic with lemon, olive oil and salt.',
+  ogImage = '/images/og.jpg',
+} = Astro.props;
+
+const p = Astro.url.pathname;
+const active = (href: string) => (href === '/' ? p === '/' : p === href || p.startsWith(href + '/')) ? ' active' : '';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={`https://www.thegarlicfather.com${p}`} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`https://www.thegarlicfather.com${ogImage}`} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <slot name="head" />
+</head>
+<body>
+  <!-- Announcement bar -->
+  <div class="announce-bar">🧄 Free Shipping on orders over $40!</div>
+
+  <!-- Nav -->
+  <nav class="nav" id="main-nav">
+    <div class="nav-inner">
+      <button class="ham-btn" id="ham-btn" aria-label="Menu">☰</button>
+      <a href="/" class="nav-logo" aria-label="The Garlic Father — Home">
+        <img src="/images/logo.png" alt="The Garlic Father" width="180" height="52" />
+      </a>
+      <div class="nav-links">
+        <a href="/" class={`nav-link${active('/')}`}>Home</a>
+        <a href="/recipes" class={`nav-link${active('/recipes')}`}>Recipes</a>
+        <a href="/contact" class={`nav-link${active('/contact')}`}>Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a href="/#products" class="btn btn-primary" style="padding:9px 20px;font-size:13px;">Shop Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Side nav (desktop) -->
+  <div class="side-nav" aria-hidden="true">
+    <a href="/">Home</a>
+    <div class="sep"></div>
+    <a href="/recipes">Recipes</a>
+    <div class="sep"></div>
+    <a href="/contact">Contact</a>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">✕</button>
+    <a href="/">Home</a>
+    <a href="/#products">Shop</a>
+    <a href="/recipes">Recipes</a>
+    <a href="/contact">Contact</a>
+  </div>
+
+  <main>
+    <slot />
+  </main>
+
+  <!-- Newsletter + Footer -->
+  <section class="newsletter-section">
+    <h2>Garlickin' Good Content</h2>
+    <p>Sign up for regular recipes and updates from The Garlic Father.</p>
+    <form class="newsletter-form" id="newsletter-form">
+      <input type="email" placeholder="Your email address" required aria-label="Email address" />
+      <button type="submit">Subscribe →</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <a href="/"><img src="/images/logo.png" alt="The Garlic Father" width="160" height="46" /></a>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/#products">Shop</a>
+        <a href="/recipes">Recipes</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <div class="footer-social">
+        <a href="https://instagram.com/thegarlicfather" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://tiktok.com/@thegarlicfather" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 The Garlic Father. All rights reserved.</span>
+      <span>hello@thegarlicfather.com</span>
+    </div>
+  </footer>
+
+  <script>
+    const hamBtn = document.getElementById('ham-btn');
+    const drawer = document.getElementById('mobile-drawer');
+    const closeBtn = document.getElementById('drawer-close');
+    const toggle = () => drawer?.classList.toggle('open');
+    hamBtn?.addEventListener('click', toggle);
+    closeBtn?.addEventListener('click', toggle);
+    drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => drawer.classList.remove('open')));
+
+    document.getElementById('newsletter-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = (e.currentTarget as HTMLFormElement).querySelector('button')!;
+      btn.textContent = 'Thanks! ✓';
+      btn.style.background = '#2D7A3C';
+      setTimeout(() => { btn.textContent = 'Subscribe →'; btn.style.background = ''; }, 3000);
+    });
+  </script>
+</body>
+</html>
