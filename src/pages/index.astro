@@ -2,36 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard';
 
-const garlico = {
-  name: 'Garlico',
-  tagline: 'Freshly whipped garlic with lemon, olive oil & salt',
-  image: '/images/garlico-original.webp',
-  variants: [
-    { label: 'Original', className: 'original' },
-    { label: 'Spicy',    className: 'spicy' },
-    { label: 'Tangy',    className: 'tangy' },
-  ],
-  sizes: [
-    { label: '8 oz',  price: 695,  priceId: '' },
-    { label: '11 oz', price: 895,  priceId: '' },
-    { label: '16 oz', price: 1195, priceId: '' },
-  ],
-};
+const POUCH_PRICE = 1000; // $10.00 per 12 oz pouch
+const POUCH_SIZE = '12 oz pouch';
 
-const tahini = {
-  name: 'Tahini',
-  tagline: 'Rich, creamy sesame tahini — original and spicy',
-  image: '/images/tahini-original.webp',
-  variants: [
-    { label: 'Original', className: 'original' },
-    { label: 'Spicy',    className: 'spicy' },
-  ],
-  sizes: [
-    { label: '8 oz',  price: 695,  priceId: '' },
-    { label: '11 oz', price: 895,  priceId: '' },
-    { label: '16 oz', price: 1195, priceId: '' },
-  ],
-};
+const garlico = [
+  {
+    id: 'garlico-original',
+    name: 'Garlico Original',
+    flavor: 'original' as const,
+    flavorLabel: 'Original',
+    tagline: 'Freshly whipped garlic with lemon, olive oil & salt.',
+    image: '/images/garlico-original.webp',
+    price: POUCH_PRICE,
+    size: POUCH_SIZE,
+  },
+  {
+    id: 'garlico-spicy',
+    name: 'Garlico Spicy',
+    flavor: 'spicy' as const,
+    flavorLabel: 'Spicy',
+    tagline: 'The signature whip with a slow-building chili kick.',
+    image: '/images/garlico-spicy.webp',
+    price: POUCH_PRICE,
+    size: POUCH_SIZE,
+  },
+  {
+    id: 'garlico-tangy',
+    name: 'Garlico Tangy',
+    flavor: 'tangy' as const,
+    flavorLabel: 'Tangy',
+    tagline: 'Bright and zesty with an extra hit of fresh lemon.',
+    image: '/images/garlico-tangy.webp',
+    price: POUCH_PRICE,
+    size: POUCH_SIZE,
+  },
+];
 
 const recipes = [
   {
@@ -100,8 +105,7 @@ const recipes = [
       <span class="section-label">Our Products</span>
       <div class="section-title">Shop The Collection</div>
       <div class="product-grid">
-        <ProductCard client:load {...garlico} />
-        <ProductCard client:load {...tahini} />
+        {garlico.map(p => <ProductCard client:load {...p} />)}
       </div>
     </div>
   </section>
