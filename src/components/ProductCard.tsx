@@ -1,110 +1,58 @@
 import { useState } from 'react';
+import { addItem } from '../lib/cart';
 
-interface Variant {
-  label: string;
-  className: string;
-}
-
-interface Size {
-  label: string;
-  price: number;
-  priceId: string;
-}
+type Flavor = 'original' | 'spicy' | 'tangy';
 
 interface Props {
+  id: string;
   name: string;
+  flavor: Flavor;
+  flavorLabel: string;
   tagline: string;
   image: string;
-  variants: Variant[];
-  sizes: Size[];
+  price: number; // cents
+  size: string;  // e.g. "12 oz pouch"
 }
 
-export default function ProductCard({ name, tagline, image, variants, sizes }: Props) {
-  const [flavor, setFlavor] = useState(0);
-  const [size, setSize] = useState(0);
-  const [loading, setLoading] = useState(false);
+export default function ProductCard({ id, name, flavor, flavorLabel, tagline, image, price, size }: Props) {
+  const [added, setAdded] = useState(false);
 
-  const selected = sizes[size];
-
-  async function handleBuy() {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          productName: `${name} — ${variants[flavor].label}`,
-          size: selected.label,
-          price: selected.price,
-          image,
-        }),
-      });
-      const { url } = await res.json();
-      if (url) window.location.href = url;
-    } catch {
-      alert('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+  function handleAdd() {
+    addItem({ id, name: `${name} · ${size}`, price, image });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
   }
 
   return (
     <div className="product-card">
       <div className="product-card-img">
-        <img src={image} alt={`${name} ${variants[flavor].label}`} loading="lazy" />
+        <img src={image} alt={name} loading="lazy" />
       </div>
       <div className="product-card-body">
+        <span className={`flavor-tab ${flavor}`} style={{ alignSelf: 'flex-start' }}>{flavorLabel}</span>
         <div className="product-name">{name}</div>
         <div className="product-tagline">{tagline}</div>
-
-        <div className="flavor-tabs">
-          {variants.map((v, i) => (
-            <button
-              key={v.label}
-              className={`flavor-tab ${i === flavor ? v.className : 'inactive'}`}
-              onClick={() => setFlavor(i)}
-            >
-              {v.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="size-pills">
-          {sizes.map((s, i) => (
-            <button
-              key={s.label}
-              className={`size-pill${i === size ? ' active' : ''}`}
-              onClick={() => setSize(i)}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="product-price">${(selected.price / 100).toFixed(2)}</div>
+        <div className="product-size">{size}</div>
+        <div className="product-price">${(price / 100).toFixed(2)}</div>
 
         <button
           className="btn btn-primary btn-full"
-          onClick={handleBuy}
-          disabled={loading}
+          onClick={handleAdd}
+          aria-live="polite"
         >
-          {loading ? (
+          {added ? (
             <>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: 'spin 1s linear infinite' }}>
-                <circle cx="12" cy="12" r="10" strokeOpacity=".3" />
-                <path d="M12 2a10 10 0 0 1 10 10" />
-              </svg>
-              Processing…
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+              Added
             </>
           ) : (
             <>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              Buy Now
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
+              Add to Cart
             </>
           )}
         </button>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CartPage from '../components/CartPage';
+---
+<Layout title="Your Cart — The Garlic Father">
+  <section class="page-hero">
+    <h1>Your Cart</h1>
+    <p>Review your garlickin' good pouches before checkout.</p>
+  </section>
+  <section class="cart-section">
+    <div class="cart-inner">
+      <CartPage client:load />
+    </div>
+  </section>
+</Layout>
