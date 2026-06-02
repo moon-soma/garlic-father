@@ -3,36 +3,36 @@ import Layout from '../../layouts/Layout.astro';
 
 const recipes = [
   {
-    name: 'Garlico Shrimp Pasta',
-    time: '20–30 mins', cals: '300–400 cal',
-    desc: 'Silky garlic pasta tossed with fresh shrimp and a generous dollop of Garlico. Quick weeknight perfection.',
-    img: '/images/recipe-shrimp-pasta.webp',
-    href: '/recipes/shrimp-pasta',
+    name: 'Caramelised Shallot & Tomato Pasta',
+    time: '30 mins', cals: '300–400 cal',
+    desc: 'Slow-caramelised shallots and tomato simmered into a silky sauce, finished with a generous spoon of Garlico.',
+    img: '/images/recipe-tomato-pasta.webp',
+    href: 'https://garlico.webflow.io/recipes/caramelized-shallot-tomato-pasta-sauce',
     tag: 'Pasta',
   },
   {
-    name: 'Garlico Roasted Potatoes',
-    time: '30–60 mins', cals: '140–200 cal',
-    desc: 'Crispy golden potatoes finished with Garlico Original for maximum flavour. The ultimate side dish.',
-    img: '/images/recipe-roasted-potatoes.webp',
-    href: '/recipes/roasted-potatoes',
+    name: 'Garlic Bread',
+    time: '20 mins', cals: '200–280 cal',
+    desc: 'Crusty bread baked golden and loaded with rich, buttery Garlico garlic. The ultimate side.',
+    img: '/images/recipe-garlic-bread.webp',
+    href: 'https://garlico.webflow.io/recipes/garlic-bread',
     tag: 'Sides',
   },
   {
-    name: 'Garlico Chicken Parmesan',
-    time: '30–50 mins', cals: '361 cal',
-    desc: 'The classic Italian-American dish elevated with a Garlico twist. Crispy, saucy, and garlicky.',
-    img: '/images/recipe-chicken-parm.webp',
-    href: '/recipes/chicken-parmesan',
+    name: 'Horopito & Garlic Marinated Chicken',
+    time: '30–45 mins', cals: '350–450 cal',
+    desc: 'Juicy chicken marinated in native horopito and garlic, then roasted sticky and golden.',
+    img: '/images/recipe-marinated-chicken.webp',
+    href: 'https://garlico.webflow.io/recipes/horopito-garlic-marinated-chicken',
     tag: 'Chicken',
   },
   {
-    name: 'Garlico Pad Thai',
-    time: '30 mins', cals: '300–400 cal',
-    desc: 'A bold East-meets-West fusion: stir-fried noodles with a garlic kick that will surprise you.',
-    img: '/images/recipe-pad-thai.webp',
-    href: '/recipes/pad-thai',
-    tag: 'Noodles',
+    name: "Friday Night Pizza",
+    time: '30–40 mins', cals: '300–400 cal',
+    desc: "The Original Spice Girl's Friday-night pizza, built on a roasted-garlic base with all the trimmings.",
+    img: '/images/recipe-friday-pizza.webp',
+    href: 'https://garlico.webflow.io/recipes/the-original-spice-girls-friday-night-pizza',
+    tag: 'Pizza',
   },
 ];
 ---
@@ -48,7 +48,7 @@ const recipes = [
   <div class="recipes-page-body">
     <div class="recipe-grid">
       {recipes.map(r => (
-        <a href={r.href} class="recipe-card">
+        <a href={r.href} class="recipe-card" target="_blank" rel="noopener">
           <div class="recipe-card-img">
             <img src={r.img} alt={r.name} loading="lazy" width="400" height="250" />
             <span style="position:absolute;top:12px;right:12px;background:var(--green);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:99px;">
